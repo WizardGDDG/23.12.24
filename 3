@@ -1,0 +1,83 @@
+#include <iostream>
+#include <algorithm> 
+
+
+void circularShiftLeftRecursive(int matrix[][4], int numRows, int numCols, int shifts, int row = 0) 
+{
+    
+    if (row == numRows) 
+    {
+        return;
+    }
+
+  
+    shifts = shifts % numCols; 
+
+    if (shifts > 0) 
+    {
+       
+        int temp[4]; 
+
+       
+        for (int i = 0; i < shifts; ++i) 
+        {
+            temp[i] = matrix[row][i];
+        }
+
+
+       
+        for (int i = 0; i < numCols - shifts; ++i) 
+        {
+            matrix[row][i] = matrix[row][i + shifts];
+        }
+
+
+        
+        for (int i = 0; i < shifts; ++i) 
+        {
+            matrix[row][numCols - shifts + i] = temp[i];
+        }
+    }
+
+  
+    circularShiftLeftRecursive(matrix, numRows, numCols, shifts, row + 1);
+}
+
+
+int main() 
+{
+    
+    int matrix[3][4] = 
+    {
+        {4, 5, 6, 7},
+        {1, 2, 4, 1},
+        {4, 5, 6, 9}
+    };
+    int numRows = 3;
+    int numCols = 4;
+    int shifts = 3;
+
+    std::cout << "Исходный массив:\n";
+    for (int i = 0; i < numRows; ++i) 
+    {
+        for (int j = 0; j < numCols; ++j) 
+        {
+            std::cout << matrix[i][j] << " ";
+        }
+        std::cout << std::endl;
+    }
+
+    circularShiftLeftRecursive(matrix, numRows, numCols, shifts);
+
+    std::cout << "\nМассив после сдвига на " << shifts << " влево:\n";
+    for (int i = 0; i < numRows; ++i) 
+    {
+        for (int j = 0; j < numCols; ++j) 
+        {
+            std::cout << matrix[i][j] << " ";
+        }
+        std::cout << std::endl;
+    }
+
+    return 0;
+}
